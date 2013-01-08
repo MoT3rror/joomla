@@ -1,0 +1,41 @@
+#!/bin/bash
+# Here do anything needed to install the service
+# i.e. apt-get install -y foo  or  bzr branch http://myserver/mycode /srv/webroot
+# Make sure this hook exits cleanly and is idempotent, common problems here are failing to account for a debconf question on a dependency, or trying to pull from github without installing git first.
+
+set -eux
+
+source inc/common
+
+juju-log "Installing apache, php and mysql-client using apt-get"
+
+add-apt-repository -y ppa:charmers/charm-helpers
+
+apt-get update && apt-get -y upgrade
+apt-get -y install apache2 php5-gd libapache2-mod-php5 php5-cgi mysql-client-core-5.5 php5-mysql python-mysqldb charm-helper-sh pwgen
+
+juju-log "Sourcing in charm-helper net.sh"
+source /usr/share/charm-helper/sh/net.sh
+
+a2enmod php5
+/etc/init.d/apache2 restart
+
+juju-log "Downloading Joomla version 2.5"
+JOOMLA_TARBALL="http://joomlacode.org/gf/download/frsrelease/17715/77261/Joomla_2.5.8-Stable-Full_Package.tar.gz"
+JOOMLA_MD5SUM="cc282f03b4870b334657485ce183e279"
+DOWNLOAD=`ch_get_file "$JOOMLA_TARBALL" "$JOOMLA_MD5SUM"`
+
+if [ ! -f "$DOWNLOAD" ] || [ -z "$DOWNLOAD" ]; then
+	juju-log "Failed to retrieve $JOOMLA_TARBALL"
+	exit 1
+fi
+
+juju-log "Extract ALL THE FILES"
+mkdir -p $install_path
+cd $install_path
+tar -xzf $DOWNLOAD
+rm -f index.html
+cd -
+
+juju-log "Clean up"
+rm -rf $DOWNLOAD

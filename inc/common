@@ -1,0 +1,8 @@
+#!/bin/bash
+
+hostname=`unit-get public-address`
+private_name=`hostname -f`
+
+install_path="/var/www/"
+config_file_path="$install_path/configuration.php"
+initdb_sql="$install_path/installation/sql/mysql/joomla.sql"
