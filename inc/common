@@ -1,7 +1,7 @@
 #!/bin/bash
 
 hostname=`unit-get public-address`
-private_name=`hostname -f`
+private_name=`unit-get private-address`
 
 install_path="/var/www/"
 config_file_path="$install_path/configuration.php"

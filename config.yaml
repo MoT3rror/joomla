@@ -1,0 +1,4 @@
+options:
+  admin_password:
+    type: string
+    description: Sets the admin password
