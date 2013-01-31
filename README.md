@@ -4,7 +4,7 @@ This charm provides joomla from http://www.joomla.org. Joomla is an award-winnin
 
 # Installation
 
-To install this charm you should schedule the following juju actions:
+To install this charm you should create a config.yaml file that suites your needs and schedule the following juju actions:
 
     juju deploy mysql
     juju deploy joomla
@@ -17,18 +17,18 @@ Finally you need to expose your joomla instance:
 
     juju expose joomla
 
-Note that the mysql reation addition will create the database and populated it with the admin user. The default password for the admin user is 123. Make sure you change IMMEDIATELY after installing. Failure to do so may have others change your website without your consent.
+Note that the mysql reation addition will create the database and populated it with the admin user set at config.yaml. 
+
+To access your exposed joomla unit you just have to open the unit's public IP address with your browser
 
 You may change the admin password and perform other administrative functions at the exposed service URL http://public-ip-address/administrator
 
 # Configuration
 
-None at this time.
-
-TODO: Add configuration options. The most important one being the admin password.
+admin_password sets the admin password for the joomla unit
 
 # Contact Information
 
-Author:
+Author: Helio L Mota
 Report bugs at: http://bugs.launchpad.net/charms/+source/joomla
 Location: http://jujucharms.com/charms/precise/joomla
