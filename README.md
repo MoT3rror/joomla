@@ -9,7 +9,9 @@ To install this charm you should create a config.yaml file that suites your need
     juju deploy mysql
     juju deploy joomla
 
-You can then add a relation between joomla and mysql with:
+Before you add a relation to mysql you need to provide a valid config.yaml to the charm that contains the admin_password. Please, refer to the juju documentation on instructions on how to set and use charm configuration files;
+
+Once the configuration is in place you can then add a relation between joomla and mysql with:
 
     juju add-relation joomla mysql
 
@@ -19,7 +21,7 @@ Finally you need to expose your joomla instance:
 
 Note that the mysql reation addition will create the database and populated it with the admin user set at config.yaml. 
 
-To access your exposed joomla unit you just have to open the unit's public IP address with your browser
+To access your exposed joomla unit you just have to open the unit's public IP address with your browser. The default user is admin and the password should be set to whatever you defined on config.yaml
 
 You may change the admin password and perform other administrative functions at the exposed service URL http://public-ip-address/administrator
 
