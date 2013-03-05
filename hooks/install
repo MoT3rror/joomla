@@ -1,11 +1,26 @@
 #!/bin/bash
-# Here do anything needed to install the service
-# i.e. apt-get install -y foo  or  bzr branch http://myserver/mycode /srv/webroot
-# Make sure this hook exits cleanly and is idempotent, common problems here are failing to account for a debconf question on a dependency, or trying to pull from github without installing git first.
+# Installs Joomla by downloading its tarball and extracing it to $install_path
+# Downloaded file MD5SUM is checked against JOOMLA_MD5SUM
 
 set -eux
 
 source inc/common
+
+function set_permissions() {
+	# Setting permissions as recommended by: 
+	# http://docs.joomla.org/Security_Checklist/Hosting_and_Server_Setup
+	if [ -d $install_path ]; then
+		chmod 750 $install_path
+		find $install_path -type f -exec chmod 644 {} \;
+		find $install_path -type d -exec chmod 755 {} \;
+		
+		juju-log "Setting configuration.php with least permission"
+		chmod 640 $install_path/configuration.php
+	else
+		juju-log "Joomla is not installed at $install_path"
+		exit 1
+	fi
+}
 
 juju-log "Installing apache, php and mysql-client using apt-get"
 
@@ -36,6 +51,9 @@ cd $install_path
 tar -xzf $DOWNLOAD
 rm -f index.html
 cd -
+
+# Set better file permissions
+set_permissions
 
 juju-log "Clean up"
 rm -rf $DOWNLOAD
