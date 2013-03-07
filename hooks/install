@@ -5,22 +5,7 @@
 set -eux
 
 source inc/common
-
-function set_permissions() {
-	# Setting permissions as recommended by: 
-	# http://docs.joomla.org/Security_Checklist/Hosting_and_Server_Setup
-	if [ -d $install_path ]; then
-		chmod 750 $install_path
-		find $install_path -type f -exec chmod 644 {} \;
-		find $install_path -type d -exec chmod 755 {} \;
-		
-		juju-log "Setting configuration.php with least permission"
-		chmod 640 $install_path/configuration.php
-	else
-		juju-log "Joomla is not installed at $install_path"
-		exit 1
-	fi
-}
+source inc/func
 
 juju-log "Installing apache, php and mysql-client using apt-get"
 

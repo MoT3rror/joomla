@@ -1,8 +1,4 @@
 #!/bin/bash
-# This must be renamed to the name of the relation. The goal here is to
-# affect any change needed by relationships being formed, modified, or broken
-# This script should be idempotent.
-
 # Sets more verbose output to help debugging
 set -eux
 
@@ -15,6 +11,7 @@ relation-list
 
 # inc/common has some common variables used through the rest of the script
 source inc/common
+source inc/func
 
 # If there is a config file already, Joomla is already installed & config'ed
 if [ -f "$config_file_path" ]; then
@@ -111,7 +108,9 @@ class JConfig {
 }
 ?>
 EOF
-chmod 0777 $config_file_path
+
+# least access permissions for the configuration file
+chmod 0640 $config_file_path
 
 juju-log Creating initial database
 # Prefixing table names with jos_

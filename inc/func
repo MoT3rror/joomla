@@ -1,0 +1,15 @@
+#!/bin/bash 
+
+# This file should contain common function definitions
+function set_permissions() {
+	# Setting permissions as recommended by: 
+	# http://docs.joomla.org/Security_Checklist/Hosting_and_Server_Setup
+	if [ -d $install_path ]; then
+		chmod 750 $install_path
+		find $install_path -type f -exec chmod 644 {} \;
+		find $install_path -type d -exec chmod 755 {} \;
+	else
+		juju-log "Joomla is not installed at $install_path"
+		exit 1
+	fi
+}
