@@ -24,8 +24,7 @@ fi
 # Relation properties
 database=`relation-get database`
 user=`relation-get user`
-password=`relation-get password`
-host=`relation-get private-address`
+password=`relation-get password` host=`relation-get private-address`
 
 # Admin password from config.yaml
 admin_password=`config-get admin_password`
@@ -110,6 +109,7 @@ class JConfig {
 EOF
 
 # least access permissions for the configuration file
+chown www-data:www-data $config_file_path
 chmod 0640 $config_file_path
 
 juju-log Creating initial database
