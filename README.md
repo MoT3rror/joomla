@@ -9,7 +9,11 @@ To install this charm you should create a config.yaml file that suites your need
     juju deploy mysql
     juju deploy joomla
 
-Before you add a relation to mysql you need to provide a valid config.yaml to the charm that contains the admin_password. Please, refer to the juju documentation on instructions on how to set and use charm configuration files;
+Before you add a relation to mysql you need to provide the joomla charm with an admininstrator password: 
+
+	juju set joomla admin_password='new password'
+	
+The default administrator password is 'password' but is highly recommended to change before adding the relation.
 
 Once the configuration is in place you can then add a relation between joomla and mysql with:
 
